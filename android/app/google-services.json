@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "84679619564",
+    "firebase_url": "https://galiappfirebd.firebaseio.com",
+    "project_id": "galiappfirebd",
+    "storage_bucket": "galiappfirebd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84679619564:android:635748402358bff32286c9",
+        "android_client_info": {
+          "package_name": "com.hakim.flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84679619564-unk5khpn8in6qkcdng0g2qg9vipgie2u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hakim.flutter_app",
+            "certificate_hash": "ff61aea0408041b69dd390904272f2331681662d"
+          }
+        },
+        {
+          "client_id": "84679619564-g54uktabs9uel5sc6gt2b2bcommvmu56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbFLpAkxw093CX3Q3VmL_TEpLMFaG_Cqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84679619564-g54uktabs9uel5sc6gt2b2bcommvmu56.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84679619564:android:bb1f7674f80619a82286c9",
+        "android_client_info": {
+          "package_name": "com.hakim.samouh.kim.galibebe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84679619564-g54uktabs9uel5sc6gt2b2bcommvmu56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbFLpAkxw093CX3Q3VmL_TEpLMFaG_Cqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84679619564-g54uktabs9uel5sc6gt2b2bcommvmu56.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84679619564:android:ec7a32fbc07ab9fc2286c9",
+        "android_client_info": {
+          "package_name": "com.hakim.samouh.www.damproyect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84679619564-g54uktabs9uel5sc6gt2b2bcommvmu56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbFLpAkxw093CX3Q3VmL_TEpLMFaG_Cqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84679619564-g54uktabs9uel5sc6gt2b2bcommvmu56.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
