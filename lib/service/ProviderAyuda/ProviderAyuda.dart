@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:galibebe/Bolcs/Api.dart';
 import 'package:galibebe/models/Ayuda.dart';
 
@@ -24,7 +23,6 @@ class ProviderAyuda {
     _ayudasStreamController?.close();
   }
 
-
   Future <List<Ayuda>> getAyudas()async  {
     Stream uri = Firestore.instance.collection("ayudas").snapshots();
       final list= _prosecarpeticiones(uri.asyncMap((event) => null));
@@ -34,16 +32,11 @@ class ProviderAyuda {
   Future <List<Ayuda>> _prosecarpeticiones(var snapshot) async {
     final respuesta = await snapshot.documents;
     final ayudas = new Ayudas.fromJsonList(respuesta);
-    print("Itmes"+ayudas.items.toString());
     return ayudas.items;
   }
-
-
-
   List<Ayuda> ayudas;
   ApiAyudas _api = ApiAyudas("ayudas");
   Future<List<Ayuda>> fetchProducts() async {
-
     var result = await _api.getDataCollection();
     ayudas = result.documents
         .map((doc) => Ayuda.fromMap(doc.data, doc.documentID))

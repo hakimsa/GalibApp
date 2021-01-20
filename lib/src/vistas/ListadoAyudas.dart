@@ -6,8 +6,10 @@ import 'package:galibebe/models/Ayuda.dart';
 import 'package:galibebe/search/search_delegate.dart';
 import 'package:galibebe/service/ProviderAyuda/ProviderAyuda.dart';
 import 'package:galibebe/src/vistas/acerca.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'WebViewContainer.dart';
+import 'hooks_widget.dart';
 
 class ListadoAyudas extends StatefulWidget  {
   final Function() onPressed;
@@ -44,7 +46,7 @@ class _ListadoState  extends State <ListadoAyudas>
     _animateIcon =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
     _buttonColor = ColorTween(
-      begin: Colors.blue,
+      begin: Colors.cyan,
       end: Colors.red,
     ).animate(CurvedAnimation(
       parent: _animationController,
@@ -87,8 +89,13 @@ class _ListadoState  extends State <ListadoAyudas>
   Widget add() {
     return Container(
       child: FloatingActionButton(
+        backgroundColor: Colors.cyan,
         heroTag: "btnadd",
-        onPressed: null,
+        onPressed: (){
+          Navigator.push(context,MaterialPageRoute(
+            builder:(context)=> MyAppconect()
+          ));
+        },
         tooltip: 'Add',
         child: Icon(Icons.add),
       ),
@@ -99,9 +106,10 @@ class _ListadoState  extends State <ListadoAyudas>
     return Container(
       child: FloatingActionButton(
         heroTag: "btnimage",
-        onPressed: null,
+        backgroundColor: Colors.cyan,
+        onPressed: (){Navigator.pushNamed(context, "Videos");},
         tooltip: 'Image',
-        child: Icon(Icons.image),
+        child: Icon(Icons.videocam),
       ),
     );
   }
@@ -109,8 +117,11 @@ class _ListadoState  extends State <ListadoAyudas>
   Widget inbox() {
     return Container(
       child: FloatingActionButton(
+        backgroundColor: Colors.cyan,
         heroTag: "btnbox",
-        onPressed: null,
+        onPressed: (){
+          Navigator.pushNamed(context, "chat2");
+        },
         tooltip: 'Inbox',
         child: Icon(Icons.inbox),
       ),
@@ -173,7 +184,7 @@ class _ListadoState  extends State <ListadoAyudas>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Ayudas publicas Galicia", style: TextStyle(color: Colors.white),),
+          "Ayudas publicas Galicia", style: GoogleFonts.saira(color: Colors.white),),
         actions: [
           IconButton(
             icon: Icon(Icons.search),
@@ -236,8 +247,8 @@ class _ListadoState  extends State <ListadoAyudas>
                       itemHeight: 370,
                       itemWidth: 241,
                       itemBuilder: (context, index) {
-                         indextitulo=index;
-                     print(indextitulo.toString());
+
+                     //print(indextitulo.toString());
 
                         return ClipRRect(
                             borderRadius: BorderRadius.circular(20),
@@ -301,13 +312,13 @@ class _ListadoState  extends State <ListadoAyudas>
   }
 
   _Titulo(index) {
-    return Text(ayudas[index].titulo,style: TextStyle(color: Colors.lightBlue,fontSize: 19),);
-  }
+    return Text(ayudas[index].titulo,style: GoogleFonts.sahitya(fontSize: 20,color: Colors.blue,shadows:<BoxShadow>[ BoxShadow(color: Colors.white,blurRadius: 3.3)]));
+}
 
   _menuActionButton() {
     return  Positioned(
-        top: 280,
-        left: 50,
+        bottom: 50,
+        right: 8,
         child:Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -349,7 +360,7 @@ class DetailPageState extends State<DetailPage> {
               width: double.infinity,
 
               alignment: AlignmentDirectional(40, 20),
-              padding: EdgeInsets.all(10),
+
               decoration: BoxDecoration(
                 boxShadow: [
                   new BoxShadow(
@@ -367,7 +378,7 @@ class DetailPageState extends State<DetailPage> {
                     widget.post.titulo,
                     style: new TextStyle(
                       letterSpacing: 02.3,
-                      color: Colors.purpleAccent,
+                      color: Colors.cyan,
 
                       //backgroundColor: Colors.lightBlueAccent,
                       fontWeight: FontWeight.bold,
@@ -389,11 +400,13 @@ class DetailPageState extends State<DetailPage> {
                   ),
                   ListTile(
                     title: Text(
-                      "Descripcion",
+                      "¿Qué es ?",
                       style: new TextStyle(
                           color: Colors.cyan, fontWeight: FontWeight.normal),
                     ),
-                    subtitle: (Text( widget.post.descripcion)),
+                    subtitle: (Text( widget.post.descripcion, style: new TextStyle(
+                        color: Colors.blueGrey.shade700, fontWeight: FontWeight.normal),
+                    )),
                   ),
                   Divider(
                     color: Colors.white,
@@ -405,7 +418,9 @@ class DetailPageState extends State<DetailPage> {
                     ),
 
                     subtitle: Text(widget.post.cuantia,
-                        style: new TextStyle(color: Colors.blueGrey)),
+                      style: new TextStyle(
+                          color: Colors.blueGrey.shade700, fontWeight: FontWeight.normal),
+                    ),
                   ),
                   Divider(
                     color: Colors.white,
@@ -419,13 +434,16 @@ class DetailPageState extends State<DetailPage> {
                       style: new TextStyle(
                           color: Colors.cyan, fontWeight: FontWeight.normal),
                     ),
-                    subtitle: (Text( widget.post.requisitos)),
+                    subtitle: (Text( widget.post.requisitos,style: new TextStyle(
+                        color: Colors.blueGrey.shade700, fontWeight: FontWeight.normal),
+                    )),
                   ),
                   Divider(
                     color: Colors.white,
                   ),
                   Row(
-                    mainAxisAlignment:MainAxisAlignment.end,
+                    mainAxisAlignment:MainAxisAlignment.spaceAround,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
 
                       RaisedButton(

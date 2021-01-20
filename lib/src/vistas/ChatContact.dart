@@ -1,13 +1,16 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:galibebe/service/Scraping_web.dart';
 class ChatTwoPage extends StatefulWidget {
-  static final String path = "lib/src/pages/misc/chat2.dart";
+  static final String routeName = "chat2";
   @override
   _ChatTwoPageState createState() => _ChatTwoPageState();
 }
 
 class _ChatTwoPageState extends State<ChatTwoPage> {
+
+
   String text;
   TextEditingController _controller;
   List<String> avatars = [
@@ -29,30 +32,43 @@ class _ChatTwoPageState extends State<ChatTwoPage> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
+
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat"),
+        title: Text("Noticias Vigo"),
       ),
       body: Column(
         children: <Widget>[
           Expanded(
-            child: ListView.separated(
-              physics: BouncingScrollPhysics(),
-              separatorBuilder: (context, index) {
-                return const SizedBox(height: 10.0);
-              },
-              reverse: true,
-              itemCount: messages.length,
-              itemBuilder: (BuildContext context, int index) {
-                Message m = messages[index];
-                if (m.user == 0) return _buildMessageRow(m, current: true);
-                return _buildMessageRow(m, current: false);
-              },
-            ),
+            child:FutureBuilder<List<dynamic>>(
+              initialData: [],
+          future: initiate(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data != null) {
+                return ListView.builder(
+                   itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        elevation: 10,
+                        child:  ListTile(
+                          leading: Image.network(snapshot.data[index][1]["imagen"].toString().substring(0,5)),
+                          //title: Image.network(snapshot.data[index][1].toString()),
+                          subtitle: Text(snapshot.data[index][index]["imagen"].toString()),
+                        ),
+                      );
+                    });
+              } else {
+                return CircularProgressIndicator();
+              }
+            }
+          }),
           ),
           _buildBottomBar(context),
         ],

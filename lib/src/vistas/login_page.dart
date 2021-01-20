@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:galibebe/service/ServiceAuth.dart';
 import 'FirebaseChatroom.dart';
 import 'ListadoAyudas.dart';
-import 'Mulitmedia.dart';
 import 'NoticiasF.dart';
 import 'acerca.dart';
 
@@ -22,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController controladorPwd = TextEditingController();
    FirebaseUser _user;
    FirebaseAuth _auth;
+  Auth aut=new Auth.init();
 
 
   @override
@@ -29,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
 
     super.initState();
     kFirebaseAuth.currentUser().then(
-          (user) => setState(() => this._auth = user as FirebaseAuth),
+          (user) => setState(() => this._auth = _auth),
         );
   }
 
@@ -45,121 +44,110 @@ class _LoginPageState extends State<LoginPage> {
   contenido(BuildContext context) {
     return ListView(
       children: <Widget>[
-
-        _buildLoginForm(context),
+        SizedBox(height: 60,),
+        _LoginForm(context),
 
       ],
     );
   }
 
-  _buildLoginForm(BuildContext context) {
-    return Center(
-      child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-              color: Color.fromRGBO(77, 77, 77, 0.65)
-          ),
-          padding: EdgeInsets.all(20.0),
-          margin: EdgeInsets.all(20),
-          child: Form(
-            key: _formKey,
-            child: Stack(
-              children: <Widget>[
-                ClipPath(
-                  clipper: RoundedDiagonalPathClipper(),
-                  child: Container(
-                    height: 500,
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 90.0,
-                        ),
-                        Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            child:TextFormField(
-                              // Validacion del campo EditText email.
-                              validator: (value) {
 
-                                if (value.isEmpty) {
-                                  return 'Por favor indica tu email';
-                                }else if ((value.toString().contains("@")==false) ||( value.isEmpty) || (value.toString().contains(".")==false)){
-                                  return 'Email incorrecto o no existe ';
-                                }
+
+  Container _LoginForm(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20.0),
+      child: Stack(
+        children: <Widget>[
+
+          ClipPath(
+
+            child: Container(
+                //height: 400,
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                  color: Colors.white,
+                ),
+                child:Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 90.0,),
+                      Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: TextFormField(
+                            // Validacion del campo EditText email.
+                            validator: (value) {
+                              Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                              RegExp regExp=new RegExp(pattern);
+                              if (value.isEmpty) {
+                                return 'Por favor indica tu email';
+                              }else if (regExp.hasMatch(value)){
                                 return null;
-                              },
-                              style: TextStyle(color: Colors.black87),
-                              controller: controladorEmail,
-                              keyboardType:TextInputType.emailAddress,
-                              decoration: InputDecoration(
+                              }
+                              return 'Email incorrecto o no existe ';
+                            },
+                            controller: controladorEmail,
+                            style: TextStyle(color: Colors.blue),
+                            decoration: InputDecoration(
+                                hintText: "Email address",
+                                hintStyle: TextStyle(color: Colors.blue.shade200),
+                                border: InputBorder.none,
+                                icon: Icon(Icons.email, color: Colors.blue,)
+                            ),
+                          )
+                      ),
+                      Container(child: Divider(color: Colors.blue.shade400,),
+                        padding: EdgeInsets.only(left: 20.0,right: 20.0, bottom: 10.0),),
+                      Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: TextFormField(
+                            // Validacion del campo EditText contraseña.
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Por favor indica tu contraseña';
+                              }else if ((value.length < 6) || value.isEmpty){
+                                return 'La contraseña debe tener mas de 6 caracteres ';
+                              }
+                              return null;
+                            },
+                            obscureText: true,
+                            controller: controladorPwd,
+                            style: TextStyle(color: Colors.blue),
+                            decoration: InputDecoration(
+                                hintText: "Password",
+                                hintStyle: TextStyle(color: Colors.blue.shade200),
+                                border: InputBorder.none,
+                                icon: Icon(Icons.lock, color: Colors.blue,)
+                            ),
+                          )
+                      ),
+                      Container(child: Divider(color: Colors.blue.shade400,), padding: EdgeInsets.only(left: 20.0,right: 20.0, bottom: 10.0),),
 
-                                  hintText: "Email address",
-                                  hintStyle: TextStyle(color: Colors.blue.shade200),
-                                  border: InputBorder.none,
-                                  icon: Icon(
-                                    Icons.email,
-                                    color: Colors.blue,
-                                  )),
-                            )),
-                        Container(
-                          child: Divider(
-                            color: Colors.blue.shade400,
+                      
+                      SizedBox(height: 10.0,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                        FlatButton(onPressed: (){
+                          Navigator.pushNamed(context, "SignupPage");
+                        }, child: Text("¿Registrate? ",style:TextStyle(color:Colors.cyan))
+                        ),
+
+                      ],),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          FlatButton(onPressed: (){
+                           //
+                            // Navigator.pushNamed(context, "SignupPage");
+                          }, child: Text("¿He olvidado mi contraseña? ",style:TextStyle(color:Colors.cyan))
                           ),
-                          padding:
-                          EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                        ),
-                        Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            child: TextFormField(
-                              // Validacion del campo EditText contraseña.
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Por favor indica tu contraseña';
-                                }else if ((value.length < 5) || value.isEmpty){
-                                  return 'la contraseña debe tener mas de 5 caracteres ';
-                                }
-                                return null;
-                              },
-                              obscureText: true,
-                              controller: controladorPwd,
-                              style: TextStyle(color: Colors.black87),
-                              decoration: InputDecoration(
-                                  hintText: "Contraseña",
-                                  hintStyle: TextStyle(color: Colors.blue.shade200),
-                                  border: InputBorder.none,
-                                  icon: Icon(
-                                    Icons.lock,
-                                    color: Colors.blue,
-                                  )),
-                            )),
-                        Container(
-                          child: Divider(
-                            color: Colors.blue.shade400,
-                          ),
-                          padding:
-                          EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Container(
-                                padding: EdgeInsets.only(right: 20.0),
-                                child: FlatButton(onPressed: (){}, child: Text("¿Ha olvidado su contraseña? ",style:TextStyle(color:Colors.cyan))))
-                          ],
-                        ),
 
-                     Row(children: [
-                       FlatButton(onPressed: (){
-                         Navigator.pushNamed(context, "SignupPage");
-                       }, child: Text("¿Registrate? ",style:TextStyle(color:Colors.cyan))
-                       )],),
-
-                     SignInButtonBuilder(
+                        ],),
+                      SignInButtonBuilder(
+                          backgroundColor: Colors.cyan,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
                           text: 'Sign in with Email',
@@ -167,58 +155,55 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
 
-                              if(_user!=null) {
+                              if(_user==null) {
                                 _SignEmailPassword(_user);
                               }else _alertaEmail();
                               // If the form is valid, display a snackbar. In the real world,
                               // you'd often call a server or save the information in a database.
                               // Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
-                            }
+                            }}),
+                      SignInButton(
+                        Buttons.Google,
+                        text: "Sign up with Google",
+                        onPressed: () {
 
+                          _singUserGoogle(_auth);
 
-                          },
-                          backgroundColor: Colors.blueGrey[700],
-                        ),
-
-                        SignInButton(
-                          Buttons.Google,
-                          text: "Sign up with Google",
-                          onPressed: () {
-                            _singUserGoogle(_auth);
-                          },
-                        ),
-
-
-                      ],
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 40.0,
-
-                      backgroundColor: Color.fromRGBO(77, 77, 77, 0.58),
-
-                      child: CircleAvatar(
-
-                        backgroundImage: AssetImage("assets/images/logo.png"),
+                        },
                       ),
-                    ),
-                  ],
-                ),
+                      SizedBox(height: 2,),
 
-              ],
+
+
+
+                    ],
+                  ),
+
+                )
+
+
+
+
             ),
-          )
-      ) ,
+
+
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CircleAvatar(
+                radius: 40.0,
+                backgroundColor: Colors.cyan,
+                child: CircleAvatar(
+                  backgroundImage: AssetImage("assets/images/logo.png"),
+                ),
+              ),
+            ],
+          ),
+
+        ],
+      ),
     );
-
-
-
-
-
   }
 
   Future<FirebaseUser> _SignEmailPassword(FirebaseUser CurUserEmailPss) async {
@@ -265,21 +250,38 @@ class _LoginPageState extends State<LoginPage> {
             body: Stack(children: [
               Container(
                 padding: EdgeInsets.all(20),
-                margin: EdgeInsets.all(10),
-                height: 250,
-                transform: Matrix4.rotationZ(094),
+                margin: EdgeInsets.all(60),
+                height: 100,
+                width: 100,
+                transform: Matrix4.rotationZ(044),
                 decoration: BoxDecoration(
-                    color: Colors.lightBlueAccent,
-                    borderRadius: BorderRadius.circular(20)),
+                    color: Color.fromRGBO(255, 255, 255, 0.45),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.blue,blurRadius: 3.8
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(100)),
               ),
-              Container(
-                height: 250,
-                transform: Matrix4.rotationZ(874),
-                decoration: BoxDecoration(
-                //    color: Color.fromRGBO(58, 77, 887, 0.68),
-                  color: Colors.cyan,
-                    borderRadius: BorderRadius.circular(20)),
-              ),
+          Positioned(
+            left: 100,
+            bottom: 50,
+            child:     Container(
+              height: 100,
+              width: 100,
+              transform: Matrix4.rotationZ(874),
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 255, 255, 0.45),
+                 boxShadow: <BoxShadow>[
+                   BoxShadow(
+                     color: Colors.lightBlueAccent,
+                     blurRadius: 2.65
+                   )
+                 ],
+                  borderRadius: BorderRadius.circular(100)),
+            ),
+
+          ),
               Positioned(
                 right: 110,
                 bottom: 150,
@@ -287,11 +289,11 @@ class _LoginPageState extends State<LoginPage> {
                   padding: EdgeInsets.all(20),
                   margin: EdgeInsets.all(10),
                   width: 120,
-                  height: 150,
+                  height: 120,
                   transform: Matrix4.rotationZ(774),
                   decoration: BoxDecoration(
-                      color: Colors.blue.shade700,
-                      borderRadius: BorderRadius.circular(20)),
+                      color: Color.fromRGBO(124, 254, 452, 0.32),
+                      borderRadius: BorderRadius.circular(100)),
                 ),
               ),
               Column(
@@ -304,43 +306,48 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ]),
       Positioned(
-        right: 2.0,
+        right: 12.0,
         top: 240,
         child:Container(
 
-          width: 120,
+          width: 80,
           height: 80,
           clipBehavior: Clip.antiAlias,
-          transform: Matrix4.rotationZ(364),
+          transform: Matrix4.rotationZ(264),
           decoration: BoxDecoration(
-              color: Colors.cyan.shade700,
-              borderRadius: BorderRadius.all(Radius.elliptical(15,8))),
+              color: Colors.cyan.shade600,
+              borderRadius: BorderRadius.all(Radius.circular(100))),
         ) ,
       ),
 
 
               Container(
-                width: double.infinity,
-                height: 620,
+                margin: EdgeInsets.only(top: 50),
+
+
                 child: GridView.count(
-                  crossAxisCount: 2,
+                  crossAxisCount: 3,
                   children: [
+
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Color.fromRGBO(77, 77, 77, 0.34),
                       ),
                       padding: EdgeInsets.all(20),
-                      margin: EdgeInsets.all(10),
-                      width: 80,
-                      height: 80,
+                      margin: EdgeInsets.all(2),
+                      width: 90,
+
                       child: Card(
-                          // color: Color.fromRGBO(77, 77, 77, 0.86),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.3)),
+                           //color: Color.fromRGBO(77, 77, 77, 0.86),
                           color: Colors.white,
                           elevation: 20,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                            Text("Chat",style: TextStyle(color: Colors.blue),),
                               IconButton(
                                 icon: Image.network("http://icons.iconarchive.com/icons/graphicloads/100-flat-2/128/chat-2-icon.png"),
                                 onPressed: () {
@@ -350,33 +357,33 @@ class _LoginPageState extends State<LoginPage> {
                                         builder: (context) =>
                                             FirebaseChatroom()),
                                   );
+
                                 },
                               ),
-                              Text(
-                                "Chat",
-                                style:
-                                    TextStyle(color: Colors.blueGrey, fontSize: 20,),
-                              )
+
                             ],
                           )),
                     ),
                     Container(
                       padding: EdgeInsets.all(20),
-                      margin: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(2),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Color.fromRGBO(77, 77, 77, 0.34),
 
                       ),
-                      width: 80,
-                      height: 80,
+                      width: 90,
+                      height: 100,
                       child: Card(
                         //  color: Color.fromRGBO(77, 77, 77, 0.86),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.3)),
                           color: Colors.white,
                           elevation: 20,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                            Text("Ayudas",style: TextStyle(color: Colors.blue),),
                               IconButton(
                                 icon: Image.network("http://icons.iconarchive.com/icons/dapino/baby-boy/128/baby-idea-icon.png"),
                                 onPressed: () {
@@ -387,33 +394,34 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                                 },
                               ),
-                              Text(
-                                "Auydas",
-                                style: TextStyle(
-                                    color: Colors.blueGrey, fontSize: 20),
-                              )
+
                             ],
                           )),
                     ),
                     Container(
                       padding: EdgeInsets.all(20),
-                      margin: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(2),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Color.fromRGBO(77, 77, 77, 0.34),
                       ),
-                      width: 80,
-                      height: 80,
+
                       child: Card(
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.3)),
                           // color:
                           //   Color.fromRGBO(77, 77, 77, 0.86),
                           color: Colors.white,
                           elevation: 20,
+                          margin: EdgeInsets.all(5),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.center,
+
                             children: [
+                              Text("Noticias",style: TextStyle(color: Colors.blue),),
                               IconButton(
-                                icon: Image.network("http://icons.iconarchive.com/icons/paomedia/small-n-flat/128/news-icon.png"),
+                                icon: Image.network("https://icons.iconarchive.com/icons/musett/coffee-shop/128/Newspaper-icon.png",width: 200,),
                                 onPressed: () {
                                   Navigator.push(
                                     context,
@@ -422,46 +430,7 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                                 },
                               ),
-                              Text(
-                                "Noticias",
-                                style: TextStyle(
-                                    color: Colors.blueGrey, fontSize: 20),
-                              )
-                            ],
-                          )),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color.fromRGBO(77, 77, 77, 0.34),
 
-                      ),
-                      width: 80,
-                      height: 80,
-                      child: Card(
-                        //  color: Color.fromRGBO(77, 77, 77, 0.86),
-                          color: Colors.white,
-                          elevation: 20,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                icon: Image.network("http://icons.iconarchive.com/icons/designbolts/free-multimedia/128/Film-icon.png"),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>    Video_show()),
-                                  );
-                                },
-                              ),
-                              Text(
-                                "Videos",
-                                style: TextStyle(
-                                    color: Colors.blueGrey, fontSize: 20),
-                              )
                             ],
                           )),
                     ),
@@ -500,8 +469,16 @@ class _LoginPageState extends State<LoginPage> {
                 transform: Matrix4.rotationZ(77),
                 decoration: BoxDecoration(
                   //    color: Color.fromRGBO(58, 77, 887, 0.68),
-                    color: Colors.lightBlueAccent,
+                    color: Colors.cyan,
                     borderRadius: BorderRadius.circular(80)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CircleAvatar(
+                    child: Text(curUserEmailPss.email.substring(0,3)),
+                  ),
+                ],
+              )
 
             ),
 
@@ -561,15 +538,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<LoginPage> _signOut() async {
-    _user=null;
+
     await kFirebaseAuth.signOut();
+      this._user=null;
+
   }
 
   void _singUserGoogle(FirebaseAuth usuarioGoogle) async {
     final usuarioGoogle = this._user ?? await kFirebaseAuth.currentUser();
     final googleUser = await kGoogleSignIn.signIn();
     final googleAuth = await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
+    final Credential credential = GoogleSignInAuthentication.Credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
@@ -584,17 +563,20 @@ class _LoginPageState extends State<LoginPage> {
 
   _alerta(BuildContext context) {
 
+
     return showDialog(context: context,
         builder: (context){
           return AlertDialog(
-            title: Text("  quieres salir ?"+"\n"+_user.email,style: TextStyle(
-              fontSize: 14,
+            title: Text("Salir"+"\n",style: TextStyle(
+              fontSize: 1952
+              ,
 
             ),),
             content: Text("¿ Estas seguro de cerrar sesion?"),
             actions: [
               RaisedButton(onPressed: (){
                 setState(() {
+
                   _signOut();
                   Navigator.push(
                     context,
@@ -658,6 +640,21 @@ class _LoginPageState extends State<LoginPage> {
     );
 
   }
+
+  /* _validaremail(String value) {
+
+
+     Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+     RegExp regExp=new RegExp(pattern);
+
+    if (value.isEmpty) {
+      return 'Por favor indica tu email';
+    }else if (regExp.hasMatch(value)){
+      return 'Email incorrecto o no existe ';
+    }
+    return null;
+
+  }*/
 
 
 

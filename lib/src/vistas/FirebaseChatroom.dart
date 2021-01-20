@@ -56,7 +56,7 @@ class _FirebaseChatroomState extends State<FirebaseChatroom> {
           icon:  CircleAvatar(
               backgroundColor: Colors.green,
               child:
-              Text(_user.email.substring(0, 3)),
+              Text(_user.email.substring(0,4)),
               backgroundImage: NetworkImage(_user.photoUrl==null?"http://icons.iconarchive.com/icons/everaldo/crystal-clear/128/App-login-manager-icon.png":_user.photoUrl)),
           onPressed: () => _showNoteDialog(context),
         ),
@@ -64,7 +64,7 @@ class _FirebaseChatroomState extends State<FirebaseChatroom> {
           scrollDirection: Axis.horizontal,
           child: Text(_user == null
               ? 'Chatting'
-              : 'Bienvenido al tribu"${_user.displayName==null ? _user.email.substring(0,3):"${_user.displayName==null?"Desco":_user.email}"}"',style:TextStyle(color: Colors.white),overflow: TextOverflow.ellipsis,),
+              : 'Bienvenido al tribu',style:TextStyle(color: Colors.white),overflow: TextOverflow.ellipsis,),
         ),
       ),
       body: Center(
@@ -94,10 +94,10 @@ widthFactor: 200,
       builder: (ctx) => AlertDialog(
         title: Text('Nota'),
         content: Text('Hola.\n\n'
-            'The chat messages es publico '
-            'el admin puede borrar todo el histroial en cualquier momento .\n\n'
-            'To send messages, you must log in '
-            'in the "GaliBebe" '),
+            'Este chat es publico '
+            ' y el admin puede borrar todo el histroial en cualquier momento .\n\n'
+            'para mandar mesajes tienes que logarte  '
+            'en la app "GaliBebe" '),
         actions: <Widget>[
           FlatButton(
             child: Text('OK'),
@@ -128,7 +128,7 @@ widthFactor: 200,
   // Returns the UI of one message from a data snapshot.
   Widget _messageFromSnapshot(
       DataSnapshot snapshot, Animation<double> animation) {
-    final String senderName = snapshot.value['senderName'] ?? _user.email.substring(0,3);
+    final String senderName = snapshot.value['senderName']==null?  this._user.email.substring(0,4): snapshot.value['senderName'];
     final String msgText = snapshot.value['text'] ?? '??';
     final sentTime = snapshot.value['timestamp'] ?? '<unknown timestamp>';
     final String senderPhotoUrl = snapshot.value['senderPhotoUrl']==null?"http://icons.iconarchive.com/icons/papirus-team/papirus-status/128/avatar-default-icon.png":snapshot.value['senderPhotoUrl'];
@@ -182,7 +182,55 @@ textDirection:TextDirection.ltr,
 
   // Builds the row for composing and sending message.
   Widget _buildComposeMsgRow() {
-    return Container(
+    return
+      Container(
+        margin: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 6.0,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        padding: const EdgeInsets.symmetric(
+          vertical: 4.0,
+          horizontal: 10.0,
+        ),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                maxLines: null,
+                maxLength: 200,
+                keyboardType: TextInputType.multiline,
+                controller: _textController,
+                onChanged: (String text) =>
+                    setState(() => _isComposing = text.length > 0),
+                onSubmitted: _onTextMsgSubmitted,
+                textInputAction: TextInputAction.send,
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 20.0,
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    hintText: "Escribe tu mensaje"),
+               // onEditingComplete: _save,
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.send,color: Colors.cyan,),
+
+              onPressed: _isComposing
+                  ? () => _onTextMsgSubmitted(_textController.text)
+                  : null,
+            )
+          ],
+        ),
+      );
+
+    /* Container(
 
       margin: EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(color: Theme.of(context).cardColor),
@@ -211,7 +259,7 @@ textDirection:TextDirection.ltr,
           ),
         ],
       ),
-    );
+    );*/
   }
 
   // Triggered when text is submitted (send button pressed).

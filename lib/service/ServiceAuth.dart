@@ -40,7 +40,7 @@ class Auth {
 
   /// Important to call this function when terminating the you app.
   void dispose() async {
-    await signOut();
+    await signOut_();
 
     _fireBaseAuth = null;
     _googleSignIn = null;
@@ -254,10 +254,11 @@ class Auth {
     return reset;
   }
 
-  signOut() {
-    
-    
-    
+  signOut_() {
+
+    _fireBaseAuth.signOut();
+
+print(_fireBaseAuth.toString()+"          ...HA SALIDO");
   }
 
   _setUserFromFireBase(FirebaseUser user) {}

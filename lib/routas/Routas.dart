@@ -2,12 +2,12 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:galibebe/src/vistas/ChatContact.dart';
 import 'package:galibebe/src/vistas/FirebaseChatroom.dart';
 import 'package:galibebe/src/vistas/ListadoAyudas.dart';
 import 'package:galibebe/src/vistas/Mulitmedia.dart';
 import 'package:galibebe/src/vistas/NoticiasF.dart';
 import 'package:galibebe/src/vistas/SignupPage.dart';
-import 'package:galibebe/src/vistas/acerca.dart';
 import 'package:galibebe/src/vistas/login_page.dart';
 
 Map<String,WidgetBuilder>getApplicationRoutes() {
@@ -17,6 +17,7 @@ Map<String,WidgetBuilder>getApplicationRoutes() {
     "SignupPage": (BuildContext context) => SignupPage(),
     "noticias": (BuildContext context) => noticia(),
     "ayudas":(BuildContext context)=>ListadoAyudas(),
-    //"acerca": (BuildContext context) => acerca()
+    Multi_Video.routeName: (BuildContext context) => Multi_Video(),
+    ChatTwoPage.routeName:(BuildContext context)=>ChatTwoPage()
   };
 }

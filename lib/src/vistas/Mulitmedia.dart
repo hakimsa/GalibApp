@@ -6,11 +6,13 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoCard extends StatelessWidget {
-  const VideoCard({Key key, this.controller, this.title, this.subtitle,this.isInitialRoute})
+class Multi_Video extends StatelessWidget {
+
+  static final String routeName="Videos";
+Multi_Video({Key key, this.controller_v, this.title, this.subtitle,this.isInitialRoute})
       : super(key: key);
 
-  final VideoPlayerController controller;
+ VideoPlayerController controller_v;
   final String title;
   final String subtitle;
    final bool isInitialRoute;
@@ -22,8 +24,8 @@ class VideoCard extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: 3 / 2,
           child: Hero(
-            tag: controller,
-            child: VideoPlayerLoading(controller),
+            tag: "controller",
+            child: VideoPlayerLoading(controller_v),
           ),
         ),
       ),
@@ -39,8 +41,8 @@ class VideoCard extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: 3 / 2,
           child: Hero(
-            tag: controller,
-            child: VideoPlayPause(controller),
+            tag: controller_v,
+            child: VideoPlayPause(controller_v),
           ),
         ),
       ),
@@ -64,10 +66,10 @@ class VideoCard extends StatelessWidget {
       );
 
       route.completed.then((void value) {
-        controller.setVolume(0.0);
+        controller_v.setVolume(0.0);
       });
 
-      controller.setVolume(1.0);
+      controller_v.setVolume(1.0);
       Navigator.of(context).push(route);
     }
 
@@ -77,8 +79,10 @@ class VideoCard extends StatelessWidget {
       child: Card(
         child: Column(
           children: <Widget>[
-            ListTile(title: Text(controller.dataSource.substring(12,19)), subtitle: Text(AutofillHints.addressState)),
+
+            //ListTile(title: Text(controller_v.dataSource.substring(12,19)), subtitle: Text(AutofillHints.addressState)),
             GestureDetector(
+
               onTap: pushFullScreenWidget,
               child: _buildInlineVideo(),
             ),
@@ -90,9 +94,9 @@ class VideoCard extends StatelessWidget {
 }
 
 class VideoPlayerLoading extends StatefulWidget {
-  const VideoPlayerLoading(this.controller);
+  const VideoPlayerLoading(this.controller_v);
 
-  final VideoPlayerController controller;
+  final VideoPlayerController controller_v;
 
   @override
   _VideoPlayerLoadingState createState() => _VideoPlayerLoadingState();
@@ -104,12 +108,12 @@ class _VideoPlayerLoadingState extends State<VideoPlayerLoading> {
   @override
   void initState() {
     super.initState();
-    _initialized = widget.controller.value.initialized;
-    widget.controller.addListener(() {
+    _initialized = widget.controller_v.value.initialized;
+    widget.controller_v.addListener(() {
       if (!mounted) {
         return;
       }
-      final bool controllerInitialized = widget.controller.value.initialized;
+      final bool controllerInitialized = widget.controller_v.value.initialized;
       if (_initialized != controllerInitialized) {
         setState(() {
           _initialized = controllerInitialized;
@@ -121,11 +125,11 @@ class _VideoPlayerLoadingState extends State<VideoPlayerLoading> {
   @override
   Widget build(BuildContext context) {
     if (_initialized) {
-      return VideoPlayer(widget.controller);
+      return VideoPlayer(widget.controller_v);
     }
     return Stack(
       children: <Widget>[
-        VideoPlayer(widget.controller),
+        VideoPlayer(widget.controller_v),
         const Center(child: CircularProgressIndicator()),
       ],
       fit: StackFit.expand,
@@ -413,25 +417,25 @@ class _Video_showState extends State<Video_show>
               child: Scrollbar(
                 child: ListView(
                   children: <Widget>[
-                    VideoCard(
+                    Multi_Video(
                       title: 'Presentacion',
                       subtitle: 'Pesentacion Marketing digital',
-                      controller: presentacionvideo,
+                      controller_v: presentacionvideo,
                     ),
-                    VideoCard(
+                    Multi_Video(
                       title: 'Butterfly',
                       subtitle: '… flutters by',
-                      controller: butterflyController,
+                      controller_v: butterflyController,
                     ),
-                    VideoCard(
+                    Multi_Video(
                       title: 'infogra q',
                       subtitle: '… gently buzzing',
-                      controller: beeController,
+                      controller_v: beeController,
                     ),
-                    VideoCard(
+                    Multi_Video(
                       title: 'Presentacion',
                       subtitle: 'Pesentacion Marketing digital',
-                      controller: presentacionVideourl,
+                      controller_v: presentacionVideourl,
                     ),
                   ],
                 ),

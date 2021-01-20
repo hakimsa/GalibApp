@@ -16,8 +16,8 @@ debugShowCheckedModeBanner: false,
         routes: getApplicationRoutes(),
         theme: ThemeData(
           // Define the default brightness and colors.
-          brightness: Brightness.light,
-         primaryColor: Colors.lightBlueAccent,
+         // brightness: Brightness.dark,
+         primaryColor: Colors.cyan,
 
 
           // Define the default font family.

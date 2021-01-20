@@ -59,8 +59,7 @@ class noticia extends StatelessWidget {
                 Firestore.instance.collection("Noticias").snapshots();
                 _pageController.addListener(() {
                   if (_pageController.position.pixels >=
-                      _pageController.position.maxScrollExtent)
-                    print("seginte");
+                      _pageController.position.maxScrollExtent);
                   //siguientepaina();
                 });
 
@@ -74,7 +73,7 @@ class noticia extends StatelessWidget {
                       tag: snap.data.documents[index]["foto"],
                       child: Container(
                         width: 180,
-                        color: Colors.green,
+                        color: Colors.lightBlueAccent,
                         child: FadeInImage(
                           placeholder: AssetImage('assets/images/loader.gif'),
                           image:
@@ -99,7 +98,7 @@ class noticia extends StatelessWidget {
     return Column(
       children: [
         Container(
-          color: Colors.grey,
+          color: Colors.black87,
           height: 100,
           width: double.infinity,
           child: Allnoticias(context),
