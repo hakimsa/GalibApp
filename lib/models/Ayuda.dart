@@ -45,7 +45,7 @@ class Ayuda{
 }
 class Ayudas {
 
-   List<Ayuda> items = new List();
+   List<Ayuda> items ;
 
    Ayudas();
 

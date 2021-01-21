@@ -7,7 +7,7 @@ import 'package:galibebe/models/Ayuda.dart';
 
 
 class ProviderAyuda {
-  int poulares_page = 0;
+  int poularesPage = 0;
   bool _estaCargando = false;
 
 //Firestore.instance.collection("ayudas").snapshots()

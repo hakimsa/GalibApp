@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:galibebe/service/ServiceAuth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'FirebaseChatroom.dart';
 import 'ListadoAyudas.dart';
 import 'NoticiasF.dart';
@@ -548,12 +549,17 @@ class _LoginPageState extends State<LoginPage> {
     final usuarioGoogle = this._user ?? await kFirebaseAuth.currentUser();
     final googleUser = await kGoogleSignIn.signIn();
     final googleAuth = await googleUser.authentication;
-    final _user = await kFirebaseAuth.signInWithCredential.Credential(
+    final GoogleSignInAuthentication googleAutxh = await googleUser.authentication;
+    final  credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
+  /*  final _user = await kFirebaseAuth.signInWithCredential.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );*/
     // Note: user.providerData[0].photoUrl == googleUser.photoUrl.
-
+    final _user =  FirebaseAuth.instance.signInWithCredential(credential);
     if (_user != null) {
       _showPerfilUser(usuarioGoogle);
     }

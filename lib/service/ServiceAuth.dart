@@ -202,14 +202,14 @@ class Auth {
   Future<bool> createUserWithEmailAndPassword({
      String email,
      String password,
-    void listener(User user),
+    void listener(FirebaseUser user),
   }) async {
     final loggedIn = await alreadyLoggedIn();
     if (loggedIn) return loggedIn;
 
     _initFireBase(listener: listener);
 
-  User user;
+    FirebaseUser user;
     try {
       user = await _fireBaseAuth
           .createUserWithEmailAndPassword(email: email, password: password)

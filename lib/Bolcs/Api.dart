@@ -23,7 +23,6 @@ class ApiAyudas {
     return ref.document(id).get();
   }
 
- List<Ayuda> _ayudas = new List();
  final StreamController _streamAyudaController = StreamController<List<Ayuda>>.broadcast();
  Function(List<Ayuda>) get ayudasSink => _streamAyudaController.sink.add;
  Stream<List<Ayuda>> get ayudasStream => _streamAyudaController.stream;
