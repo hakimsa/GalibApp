@@ -60,7 +60,7 @@ class noticia extends StatelessWidget {
                 _pageController.addListener(() {
                   if (_pageController.position.pixels >=
                       _pageController.position.maxScrollExtent);
-                  //siguientepaina();
+
                 });
 
                 final card = Card(
@@ -78,7 +78,7 @@ class noticia extends StatelessWidget {
                           placeholder: AssetImage('assets/images/loader.gif'),
                           image:
                               NetworkImage(snap.data.documents[index]["foto"]),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ));
@@ -98,8 +98,8 @@ class noticia extends StatelessWidget {
     return Column(
       children: [
         Container(
-          color: Colors.black87,
-          height: 100,
+          color: Colors.lightBlueAccent,
+          height: 120,
           width: double.infinity,
           child: Allnoticias(context),
         )
@@ -112,6 +112,7 @@ class noticia extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             IconButton(
               onPressed: () => Navigator.pop(context),
@@ -120,7 +121,7 @@ class noticia extends StatelessWidget {
                 color: Colors.lightBlueAccent,
                 size: 37,
               ),
-            )
+            ),Text("Back")
           ],
         ),
       ],

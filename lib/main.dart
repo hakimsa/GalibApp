@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:galibebe/routas/Routas.dart';
 
-
 void main() async => (runApp(MyApp()));
 class MyApp extends StatelessWidget {
 
