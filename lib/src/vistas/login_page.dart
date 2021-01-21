@@ -548,12 +548,12 @@ class _LoginPageState extends State<LoginPage> {
     final usuarioGoogle = this._user ?? await kFirebaseAuth.currentUser();
     final googleUser = await kGoogleSignIn.signIn();
     final googleAuth = await googleUser.authentication;
-    final Credential credential = GoogleSignInAuthentication.Credential(
+    final _user = await kFirebaseAuth.signInWithCredential.Credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
     // Note: user.providerData[0].photoUrl == googleUser.photoUrl.
-    _user = await kFirebaseAuth.signInWithCredential(credential);
+
     if (_user != null) {
       _showPerfilUser(usuarioGoogle);
     }

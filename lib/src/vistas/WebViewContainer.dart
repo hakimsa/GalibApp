@@ -28,6 +28,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
                     javascriptMode: JavascriptMode.unrestricted,
                     initialUrl: _url))
           ],
-        ));
+        )
+              );
   }
 }

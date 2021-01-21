@@ -12,8 +12,6 @@ _alerta(BuildContext context){
       actions: [
         RaisedButton(onPressed: (){}
         ,elevation: 20,
-
-
          child:Text("Si") ,
         )
       ],
